@@ -49,7 +49,7 @@ Requisitos del Proyecto
 
 ![Vista de la App](images/Imagen4.png)
 
-5. Para este proyecto dado que el tamaño del modelo a descargar es grande necesitamos una maquina con más memoria y disco. con nuesra licencia tenemos permiso desde un micro lanzar hasta un T2.Large.
+5. Para este proyecto dado que el tamaño del modelo a descargar es grande necesitamos una maquina con más memoria y disco. con nuestra licencia tenemos permiso desde un micro lanzar hasta un T2.Large.
 
 ![Vista de la App](images/Imagen5.png)
 
@@ -61,7 +61,7 @@ Requisitos del Proyecto
 
 ![Vista de la App](images/Imagen7.png)
 
-8. Configure el almacenamiento. Este proyecto como se dijo requere capacidad en disco. Aumente el disco a 16 GiB.
+8. Configure el almacenamiento. Este proyecto como se dijo requiere capacidad en disco. Aumente el disco a 16 GiB.
 
 ![Vista de la App](images/Imagen8.png)
 
@@ -69,35 +69,35 @@ Requisitos del Proyecto
 
 ![Vista de la App](images/Imagen9.png)
 
-11. Vamos a seleccionar el servidor ec2 lanzado. Verificar la dirección IP pública y el DNS en el resumen de la instancia
+10. Vamos a seleccionar el servidor ec2 lanzado. Verificar la dirección IP pública y el DNS en el resumen de la instancia
 
 ![Vista de la App](images/Imagen10.png)
 
-13. Debido a que vamos a lanzar un API rest debemos habilitar el puerto. Vamos al seguridad y luego vamos al grupo de seguridad
+11. Debido a que vamos a lanzar un API rest debemos habilitar el puerto. Vamos al seguridad y luego vamos al grupo de seguridad
 
 ![Vista de la App](images/Imagen11.png)
 
-15. Vamos a ir a Editar la regla de entrada
+12. Vamos a ir a Editar la regla de entrada
 
 ![Vista de la App](images/Imagen12.png)
 
-16. Ahora vamos a agregar un regla de entrada para habilitar el puerto, recuerden poner IPV 4
+13. Ahora vamos a agregar un regla de entrada para habilitar el puerto, recuerden poner IPV 4
 
 ![Vista de la App](images/Imagen13.png)
 
-17. Abre un puerto en el grupo de seguridad (por ejemplo, puerto 8080) para permitir acceso a la API.
+14. Abre un puerto en el grupo de seguridad (por ejemplo, puerto 8080) para permitir acceso a la API.
 
 ![Vista de la App](images/Imagen14.png)
 
-18. Guardemos la regla de entrada.
+15. Guardemos la regla de entrada.
 
 ![Vista de la App](images/Imagen15.png)
 
-19. Ve nuevamente a instancias
+16. Ve nuevamente a instancias
 
 ![Vista de la App](images/Imagen16.png)
 
-20. Vamos a conectar con la consola del servidor
+17. Vamos a conectar con la consola del servidor
 
 ![Vista de la App](images/Imagen17.png)
 
@@ -267,6 +267,14 @@ uvicorn app:app --host 0.0.0.0 --port 8080 --reload
 
 ![Vista de la App](images/Imagen25.png)
 
+## Probar el servidor con un Curl desde el PowerShell del computador
+
+Ejecutar el siguiente código para que envíe una predicción
+
+```bash
+Invoke-RestMethod -Uri http://3.82.114.41:8080/predict/ -Method POST -ContentType "application/json" -Body '{"text":"Estoy muy feliz con este proyecto"}'
+```
+
 ---
 
 ## Desarrollo del Front-end
@@ -274,15 +282,11 @@ uvicorn app:app --host 0.0.0.0 --port 8080 --reload
 
 ---
 
-## 🔧 Paso a Paso del Desarrollo
+## Despliegue Final
 
-### 1. Backend (API FastAPI en EC2)
+### Revisar Configuración de Seguridad en AWS
+Asegúrate de que el grupo de seguridad en AWS permita el tráfico en el puerto 8080 y que tu servidor sea accesible desde fuera de la red privada.
 
-#### 🛠️ Configuración inicial del entorno
-
-```bash
-# En tu instancia EC2 (Ubuntu)
-sudo apt update && sudo apt install python3-pip
-pip install fastapi uvicorn keras tensorflow numpy deep-translator
-
-
+### Configuración de la manera de hacer el predict
+Debe estar bien configurado el código con la parte del post en la aplicación movil ya que utilizar otras funciones diferentes a la del app.py del código de la instancia no valdrá la función y no dará la predicción.
+---
