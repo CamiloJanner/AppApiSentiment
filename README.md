@@ -35,83 +35,71 @@ Requisitos del Proyecto
 
 1. En la consola de administración de AWS seleccione el servicio de EC2 (servidor virtual) o escriba en buscar.
 
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen1.png)
 
 2. Ve a la opción para lanzar la instancia
 
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen2.png)
 
-3. Lanza una istancia nueva
+3. Lanza una instancia nueva
 
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen3.png)
 
 4. Inicia una nueva instancia EC2 en AWS (elige Ubuntu como sistema operativo), puede dejar la imagen por defecto.
 
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen4.png)
 
 5. Para este proyecto dado que el tamaño del modelo a descargar es grande necesitamos una maquina con más memoria y disco. con nuesra licencia tenemos permiso desde un micro lanzar hasta un T2.Large.
 
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen5.png)
 
 6. Seleccione el par de claves ya creado, o cree uno nuevo (Uno de los dos, pero recuerde guardar esa llave que la puede necesitar, no la pierda)
 
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen6.png)
 
 7. Habilite los puertos de shh, web y https, para este proyecto no lo vamos a usar no es necesario, pero si vas a publicar una web es requerido.
 
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen7.png)
 
 8. Configure el almacenamiento. Este proyecto como se dijo requere capacidad en disco. Aumente el disco a 16 GiB.
 
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen8.png)
 
 9. Finalmente lance la instancia (no debe presentar error, si tiene error debe iniciar de nuevo). Si todo sale bien, por favor haga click en instancias en la parte superior.
 
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen9.png)
 
-10. Dado que normalmente en la lista de instancias NO VE la nueva instancia lanzada por favor actualice la pagina Web o en ir a instancias.
+11. Vamos a seleccionar el servidor ec2 lanzado. Verificar la dirección IP pública y el DNS en el resumen de la instancia
 
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen10.png)
 
-11. Vamos a seleccionar el servidor ec2 lanzado.
+13. Debido a que vamos a lanzar un API rest debemos habilitar el puerto. Vamos al seguridad y luego vamos al grupo de seguridad
 
-![Vista de la App](images/imagen1.png)
-
-12. Verificar la dirección IP pública y el DNS en el resumen de la instancia
-
-![Vista de la App](images/imagen1.png)
-
-13. Debido a que vamos a lanzar un API rest debemos habilitar el puerto. Vamos al seguridad
-
-![Vista de la App](images/imagen1.png)
-
-14. Vamos al grupo de seguridad
-
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen11.png)
 
 15. Vamos a ir a Editar la regla de entrada
 
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen12.png)
 
 16. Ahora vamos a agregar un regla de entrada para habilitar el puerto, recuerden poner IPV 4
 
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen13.png)
 
 17. Abre un puerto en el grupo de seguridad (por ejemplo, puerto 8080) para permitir acceso a la API.
 
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen14.png)
 
 18. Guardemos la regla de entrada.
 
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen15.png)
 
 19. Ve nuevamente a instancias
 
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen16.png)
 
 20. Vamos a conectar con la consola del servidor
 
-![Vista de la App](images/imagen1.png)
+![Vista de la App](images/Imagen17.png)
 
 
 ---
@@ -136,7 +124,39 @@ sudo apt update
 ```
 
 ### Instalar las siguientes instancias (images/imagen1)
-![Vista de la App](images/imagen18.png)
+![Vista de la App](images/Imagen18.png)
+
+Si se requiere: Instalar pip y virtualenv
+```bash
+sudo apt update
+```
+
+Crear la carpeta del proyecto
+```bash
+sudo apt update
+```
+
+Accede a tu carpeta
+```bash
+sudo apt update
+```
+
+Crear y activar un entorno virtual
+```bash
+sudo apt update
+```
+
+Recuerda que en el prompt debe obersar que el env debe quedar activo
+```bash
+sudo apt update
+```
+
+
+## Crear la API FastAPI
+
+Crea un archivo app.py en tu instancia EC2 para definir la API que servirá las predicciones.
+
+![Vista de la App](images/Imagen18.png)
 
 ---
 
