@@ -279,6 +279,490 @@ Invoke-RestMethod -Uri http://3.82.114.41:8080/predict/ -Method POST -ContentTyp
 
 ## Desarrollo del Front-end
 
+# 2. Frontend en React Native: React Native en Windows 11
+
+
+Node.js y npm:
+
+## Paso 1: Verifica la instalación de Node.js y npm ejecutando en la terminal:
+ ```bash
+
+node -v
+npm -v
+ ```
+
+Si no ves la versión de Node.js (al menos v18.x.x) o npm (v10.x.x), descarga e instala la versión LTS de Node.js desde aquí.
+
+https://reactnative.dev/docs/set-up-your-environment
+
+Va a requerir primero bajar 
+
+https://chocolatey.org/install
+
+Todos los pasos los puede verificar aqui
+
+ https://youtu.be/nwXUXt_QqU8?si=dWjeavfLB06cz-bo
+
+
+Verifica la instalación de Android Studio. Abre Android Studio y asegúrate de que el Android SDK y el Android Virtual Device (AVD) estén correctamente instalados, en el siguiente link puedes realizar la descarga.
+
+https://developer.android.com/studio?hl=es-419&_gl=1*5t55h4*_up*MQ..&gclid=EAIaIQobChMIie2A3uCYiwMVJ7VaBR2njTbJEAAYASAAEgIdWvD_BwE&gclsrc=aw.ds
+
+Dentro de Android Studio, ve a SDK Manager y asegúrate de que estén instaladas las siguientes herramientas:
+
+Android SDK Platform 35.
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/SDK35.PNG?raw=true)
+
+Intel x86 Atom System Image o Google APIs Intel x86 Atom System Image. (depende el procesador de tu maquina)
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Intelx86.PNG?raw=true)
+
+Android SDK Build Tools 35.0.0.
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/BuildTools.PNG?raw=true)
+
+Si no tienes el AVD (Android Virtual Device), crea uno. Si tienes un dispositivo físico Android, puedes usarlo directamente conectándolo al PC a través de USB y habilitando la depuración USB en tu dispositivo.
+
+Si no tienes el command-line tools, entra a la pagina de Android Studio 
+https://developer.android.com/studio?gad_source=1&gclid=EAIaIQobChMIie2A3uCYiwMVJ7VaBR2njTbJEAAYASAAEgIdWvD_BwE&gclsrc=aw.ds&hl=es-419
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/comandTools.PNG?raw=true)
+
+Una vez tienes el command-line tools debes extraerlo en el Android/SDK C:\Users\Smartcenter\AppData\Local\Android\Sdk
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/cmdline-tools.PNG?raw=true)
+
+## Verficiación del NDK
+* Abre Android Studio
+
+Ve a: More Actions > SDK Manager
+
+Haz clic en la pestaña SDK Tools
+
+Marca la opción NDK (Side by side)
+
+Si ya está marcada:
+
+Desmárcala
+
+Aplica cambios (esto desinstala)
+
+* Luego vuelve a marcarla y aplica de nuevo (esto reinstala correctamente)
+
+Asegúrate también de tener marcado:
+
+CMake
+
+Android SDK Command-line Tools (latest)
+
+Reinicia Android Studio y tu terminal (cmd o Node.js Prompt)
+
+
+## Variables de Entorno de Usuario:
+Verifica que las variables de entorno estén correctamente configuradas, para ello accede a las variables de entorno desde el buscador de windows:
+
+![image](https://github.com/user-attachments/assets/de660b10-e806-4229-af0f-a3a068cb5868)
+
+Una vez estes ahi, dale click en variables de entorno
+
+![image](https://github.com/user-attachments/assets/70aea713-c754-43e6-918a-938b5d81c4c5)
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/android_Home.PNG?raw=true)
+
+
+ANDROID_HOME debe apuntar a la carpeta de instalación del SDK de Android, el path de su cuenta o del sistema configure: Por ejemplo:
+ ```plaintext
+
+%LOCALAPPDATA%\Android\Sdk
+%ANDROID_HOME%\tools\bin
+%ANDROID_HOME%\emulator
+%ANDROID_HOME%\platform-tools
+%ANDROID_HOME%\tools
+ ```
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/android_Home.PNG?raw=true)
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/sdk_entorno.PNG?raw=true)
+
+
+##Asegúrate de que el emulador esté iniciado ANTES de correr run-android
+
+Revisa que el dispositivo tenga una imagen compatible (por ejemplo, API 30 o superior)
+
+Usa el emulador Pixel API 33 x86_64 (recomendado)
+
+
+## Paso 2: Limpiar posibles residuos de instalaciones previas
+Si has tenido problemas con instalaciones previas, es recomendable limpiar completamente las dependencias globales de npm y React Native.
+
+Eliminar React Native CLI globalmente: Si tienes instalado react-native-cli globalmente, elimínalo:
+
+ ```bash
+
+npm uninstall -g react-native-cli
+ ```
+Eliminar la caché de npm: Borra la caché de npm para evitar problemas con dependencias:
+
+ ```bash
+
+npm cache clean --force
+ ```
+
+## Paso 3: Crear el Proyecto de React Native
+Una vez que todo esté instalado y configurado correctamente, crea un nuevo proyecto de React Native con el siguiente comando:
+
+Ejecutar directamente en Node.js Command Prompt en Administrador,
+si prefieres no modificar las políticas de PowerShell, puedes usar el terminal proporcionado por Node.js:
+
+Abre Node.js Command Prompt (generalmente instalado junto con Node.js).
+Ejecuta tu comando:
+ ```bash
+npx @react-native-community/cli init imagenes
+ ```
+ (imagenes es el nombre del proyecto)
+
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/React.PNG?raw=true)
+
+
+Conectar tu dispositivo físico:
+En adroide puedes configurar un    dispositivo virtual
+
+En fisico:
+
+Habilita Depuración por USB en tu dispositivo:
+Ve a Configuración > Acerca del teléfono.
+Toca varias veces en "Número de compilación" para habilitar el modo desarrollador.
+Ve a Opciones de desarrollador y activa Depuración USB.
+Conecta tu dispositivo a tu computadora con un cable USB.
+
+Esto debería listar tu dispositivo.
+
+Si no te llega a funcionar de este metodo, busca en google el modelo de tu celular y como activar el modo desarrollador
+
+Accede a la carpeta de tu proyecto:
+
+```bash
+cd imagenes
+```
+
+Luego realiza una limpieza del cache:
+```bash
+npm cache clean --force
+```
+
+Ahora ejecuta el siguiente comando y veras la plantilla base de React Native
+```bash
+npx react-native run-android
+```
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/plantilla.PNG?raw=true)
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Screenshot_2025-01-28-15-47-27-28_be78f1e3c60d0ba7def362c0a150a54c.jpg?raw=true)
+
+
+## Paso 4: Instalar dependencias necesarias: 
+Después de agregar el archivo App.js, asegúrate de que las dependencias que usas, como axios para HTTP y expo-image-picker, estén instaladas.
+Instalaciones Requeridas: Asegúrate de haber instalado las dependencias necesarias:
+
+```bash
+npm install axios
+```
+```bash
+npm install --save expo-image-picker
+```
+```bash
+npm install react-native-permissions
+```
+```bash
+npm install react-native-image-picker
+```
+```bash
+npm install react-native-tts
+```
+
+## Paso 5: Crea el archivo app.tsx 
+Cambia el archivo app.tsx y ejecuta estos comandos en el Visual Studio Code dentro del directorio de tu proyecto:
+
+```bash
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Alert, ScrollView, Platform, Image } from 'react-native';
+import axios from 'axios';
+import { launchCamera } from 'react-native-image-picker';
+import { PermissionsAndroid, Platform as RNPlatform } from 'react-native'; 
+import Tts from 'react-native-tts'; // Importa el paquete de texto a voz
+
+const App = () => {
+  const [ip, setIp] = useState('');
+  const [puerto, setPuerto] = useState('');
+  const [imagen, setImagen] = useState(null);
+  const [respuesta, setRespuesta] = useState(null);
+
+  // Función para solicitar permisos en Android
+  const requestPermissions = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const cameraPermission = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          {
+            title: 'Permiso para usar la cámara',
+            message: 'La aplicación necesita acceso a la cámara para tomar fotos.',
+            buttonNeutral: 'Pregúntame después',
+            buttonNegative: 'Cancelar',
+            buttonPositive: 'Aceptar',
+          },
+        );
+
+        const storagePermission = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+          {
+            title: 'Permiso para usar el almacenamiento',
+            message: 'La aplicación necesita acceso al almacenamiento para guardar las fotos.',
+            buttonNeutral: 'Pregúntame después',
+            buttonNegative: 'Cancelar',
+            buttonPositive: 'Aceptar',
+          },
+        );
+
+        if (cameraPermission === PermissionsAndroid.RESULTS.GRANTED && storagePermission === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('Permisos concedidos');
+        } else {
+          console.log('Permisos denegados');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+  };
+
+  // Función para pedir permisos en iOS (si es necesario)
+  const checkPermissionsForiOS = async () => {
+    if (Platform.OS === 'ios') {
+      const result = await launchCamera({ mediaType: 'photo' });
+      if (result.errorCode) {
+        Alert.alert('Error', 'No se pudieron obtener permisos para la cámara.');
+      }
+    }
+  };
+
+  // Llamar las funciones de permisos al inicio
+  useEffect(() => {
+    requestPermissions();
+    checkPermissionsForiOS();
+    Tts.setDefaultLanguage('es-ES'); 
+    Tts.setDefaultRate(0.5); 
+  }, []);
+
+  const tomarFoto = async () => {
+    const options = {
+      mediaType: 'photo',
+      cameraType: 'back',
+      quality: 0.5,
+    };
+
+    launchCamera(options, (response) => {
+      if (response.didCancel) {
+        console.log('Usuario canceló la cámara');
+      } else if (response.errorCode) {
+        console.log('Error en la cámara: ', response.errorMessage);
+      } else {
+        const { uri } = response.assets[0];  // Usamos `assets[0]` ya que launchCamera retorna una matriz
+        setImagen(uri);
+      }
+    });
+  };
+
+  const enviarImagen = async () => {
+    if (!ip || !puerto) {
+      Alert.alert('Error', 'Por favor ingresa la IP y el puerto del servidor.');
+      return;
+    }
+
+    if (!imagen) {
+      Alert.alert('Error', 'Por favor toma una foto antes de enviarla.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', {
+      uri: imagen,
+      type: 'image/jpeg',
+      name: 'foto.jpg',
+    });
+
+    try {
+      const response = await axios.post(`http://${ip}:${puerto}/predict/`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      setRespuesta(response.data.predictions);
+      // Convertir la respuesta a voz
+      speakResponse(response.data.predictions);
+    } catch (error) {
+      Alert.alert('Error', 'No se pudo enviar la imagen: ' + error.message);
+    }
+  };
+
+  // Función para convertir la respuesta a voz
+  const speakResponse = (predictions) => {
+    if (predictions && predictions.length > 0) {
+      const speechText = predictions.map(item => {
+        return `La imagen se clasifica como ${item.class_name} con una probabilidad de ${(item.probability * 100).toFixed(2)}%.`;
+      }).join(' '); // Unir todas las predicciones en un solo texto
+      Tts.speak(speechText); // Convertir el texto a voz
+    }
+  };
+
+  return (
+    
+
+    <View style={styles.container}>
+
+      
+      <View style={styles.header}>
+        <Image source={require('./assets/logo.png')} style={styles.logo} />
+        <Text style={styles.title}>Reconocimiento de Imagenes</Text>
+      </View>
+
+      <TextInput
+        style={styles.input}
+        placeholder="IP del servidor"
+        value={ip}
+        onChangeText={setIp}
+        placeholderTextColor="white"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Puerto del servidor"
+        value={puerto}
+        onChangeText={setPuerto}
+        placeholderTextColor="white"
+      />
+      <Button title="Tomar Foto" onPress={tomarFoto} />
+      <Button title="Clasificar Imagen" onPress={enviarImagen} />
+
+      {respuesta && (
+        <ScrollView style={styles.responseContainer}>
+          <Text style={styles.responseTitle}>La imagen se puede clasificar en:</Text>
+          {respuesta.map((item, index) => (
+            <View key={index} style={styles.tableRow}>
+              <Text style={styles.tableCell}>Class Name: {item.class_name}</Text>
+              <Text style={styles.tableCell}>Probability: {(item.probability * 100).toFixed(2)}%</Text>
+            </View>
+          ))}
+        </ScrollView>
+      )}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: '#f5f5f5',
+  },
+  logo: {
+    width: 50,
+    height: 50,
+    marginRight: 1,
+    marginBottom:20,
+    
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 24,
+    textAlign: 'center',
+    marginBottom: 20,
+    color: 'black',
+    flexWrap: 'wrap',  
+    lineHeight: 30,    
+    width: '80%',      
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 15,
+    paddingLeft: 10,
+    backgroundColor: 'black',
+    color: 'white',
+  },
+  responseContainer: {
+    marginTop: 20,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#ddd',
+  },
+  responseTitle: {
+    fontSize: 18,
+    marginBottom: 10,
+    fontWeight: 'bold',
+  },
+  tableRow: {
+    marginBottom: 10,
+  },
+  tableCell: {
+    fontSize: 16,
+    color: 'black',
+  },
+});
+
+export default App;
+
+```
+## Paso 6: Permisos en AndroidManifest.xml
+Asegúrate de que los permisos para la cámara estén configurados en tu archivo AndroidManifest.xml: en C:\Users\USUARIO\imagenes\android\app\src\main\AndroidManifest.xml
+
+```xml
+
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
+
+
+```
+
+## Paso 7: Crea la carpeta assets
+En la raíz del proyecto crea una carpeta llamada assets en donde pongas la imagen del logo utilizada en el proyecto que podrás encontrar en los recursos de este github
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Assets.PNG?raw=true)
+
+## Paso 8: Ejecutar la App en el Emulador o en un Dispositivo Físico
+
+Conectar un dispositivo Android físico y habilitar la Depuración USB en las Opciones de Desarrollador.
+
+Puede listar si el dispoitivo está conectado
+adb devices
+
+listar los emuladores
+emulator -list-avds
+
+
+
+cd android
+gradlew clean
+cd ..
+
+Ejecutar el Proyecto en un Dispositivo Físico:
+
+```bash
+npx react-native run-android
+```
+Emulador de Android: Si prefieres usar un emulador, puedes instalar Genymotion como alternativa al emulador de Android Studio:
+
+Descargar Genymotion.
+Configura el emulador con una imagen de Android y asegúrate de que adb detecte el emulador:
+```bash
+adb devices
+```
 
 ---
 
