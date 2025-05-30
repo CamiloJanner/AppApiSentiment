@@ -258,11 +258,14 @@ Para salir del editor nano oprime CTRL-X y luego (Save modified buffer? ) escrib
 
 ## Ejecutar el Servidor FastAPI
 
+Para ejecutar el servidor de FastAPI, usa Uvicorn:
+
 ```bash
 source venv/bin/activate
 uvicorn app:app --host 0.0.0.0 --port 8080 --reload
 ```
 
+![Vista de la App](images/Imagen25.png)
 
 ---
 
