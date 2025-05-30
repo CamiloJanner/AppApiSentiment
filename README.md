@@ -285,8 +285,11 @@ Invoke-RestMethod -Uri http://3.82.114.41:8080/predict/ -Method POST -ContentTyp
 ## Despliegue Final
 
 **Revisar Configuración de Seguridad en AWS**
+
 Asegúrate de que el grupo de seguridad en AWS permita el tráfico en el puerto 8080 y que tu servidor sea accesible desde fuera de la red privada.
 
 **Configuración de la manera de hacer el predict**
+
 Debe estar bien configurado el código con la parte del post en la aplicación movil ya que utilizar otras funciones diferentes a la del app.py del código de la instancia no valdrá la función y no dará la predicción.
+
 ---
