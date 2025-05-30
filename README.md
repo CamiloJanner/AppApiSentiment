@@ -32,6 +32,7 @@ Requisitos del Proyecto
 ---
 
 ## Desarrollo del Back-end
+
 1. En la consola de administración de AWS seleccione el servicio de EC2 (servidor virtual) o escriba en buscar.
 2. Ve a la opción para lanzar la instancia
 3. Lanza una istancia nueva
@@ -74,7 +75,8 @@ python3 -V
 sudo apt update
 ```
 
-
+### Instalar las siguientes instancias (images/imagen1)
+![Vista de la App](images/imagen1.png)
 
 ---
 
