@@ -279,8 +279,6 @@ Invoke-RestMethod -Uri http://3.82.114.41:8080/predict/ -Method POST -ContentTyp
 
 ## Desarrollo del Front-end
 
-
-
 Node.js y npm:
 
 ## Paso 1: Verifica la instalación de Node.js y npm ejecutando en la terminal:
@@ -300,63 +298,7 @@ https://chocolatey.org/install
 
 Todos los pasos los puede verificar aqui
 
- https://youtu.be/nwXUXt_QqU8?si=dWjeavfLB06cz-bo
-
-
-Verifica la instalación de Android Studio. Abre Android Studio y asegúrate de que el Android SDK y el Android Virtual Device (AVD) estén correctamente instalados, en el siguiente link puedes realizar la descarga.
-
-https://developer.android.com/studio?hl=es-419&_gl=1*5t55h4*_up*MQ..&gclid=EAIaIQobChMIie2A3uCYiwMVJ7VaBR2njTbJEAAYASAAEgIdWvD_BwE&gclsrc=aw.ds
-
-Dentro de Android Studio, ve a SDK Manager y asegúrate de que estén instaladas las siguientes herramientas:
-
-Android SDK Platform 35.
-
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/SDK35.PNG?raw=true)
-
-Intel x86 Atom System Image o Google APIs Intel x86 Atom System Image. (depende el procesador de tu maquina)
-
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Intelx86.PNG?raw=true)
-
-Android SDK Build Tools 35.0.0.
-
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/BuildTools.PNG?raw=true)
-
-Si no tienes el AVD (Android Virtual Device), crea uno. Si tienes un dispositivo físico Android, puedes usarlo directamente conectándolo al PC a través de USB y habilitando la depuración USB en tu dispositivo.
-
-Si no tienes el command-line tools, entra a la pagina de Android Studio 
-https://developer.android.com/studio?gad_source=1&gclid=EAIaIQobChMIie2A3uCYiwMVJ7VaBR2njTbJEAAYASAAEgIdWvD_BwE&gclsrc=aw.ds&hl=es-419
-
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/comandTools.PNG?raw=true)
-
-Una vez tienes el command-line tools debes extraerlo en el Android/SDK C:\Users\Smartcenter\AppData\Local\Android\Sdk
-
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/cmdline-tools.PNG?raw=true)
-
-## Verficiación del NDK
-* Abre Android Studio
-
-Ve a: More Actions > SDK Manager
-
-Haz clic en la pestaña SDK Tools
-
-Marca la opción NDK (Side by side)
-
-Si ya está marcada:
-
-Desmárcala
-
-Aplica cambios (esto desinstala)
-
-* Luego vuelve a marcarla y aplica de nuevo (esto reinstala correctamente)
-
-Asegúrate también de tener marcado:
-
-CMake
-
-Android SDK Command-line Tools (latest)
-
-Reinicia Android Studio y tu terminal (cmd o Node.js Prompt)
-
+https://youtu.be/nwXUXt_QqU8?si=dWjeavfLB06cz-bo
 
 ## Variables de Entorno de Usuario:
 Verifica que las variables de entorno estén correctamente configuradas, para ello accede a las variables de entorno desde el buscador de windows:
@@ -460,7 +402,6 @@ npx react-native run-android
 
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Screenshot_2025-01-28-15-47-27-28_be78f1e3c60d0ba7def362c0a150a54c.jpg?raw=true)
 
-
 ## Paso 4: Instalar dependencias necesarias: 
 Después de agregar el archivo App.js, asegúrate de que las dependencias que usas, como axios para HTTP y expo-image-picker, estén instaladas.
 Instalaciones Requeridas: Asegúrate de haber instalado las dependencias necesarias:
@@ -486,141 +427,53 @@ Cambia el archivo app.tsx y ejecuta estos comandos en el Visual Studio Code dent
 
 ```bash
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, ScrollView, Platform, Image } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity, Image } from 'react-native';
 import axios from 'axios';
-import { launchCamera } from 'react-native-image-picker';
-import { PermissionsAndroid, Platform as RNPlatform } from 'react-native'; 
-import Tts from 'react-native-tts'; // Importa el paquete de texto a voz
+import Tts from 'react-native-tts';
 
 const App = () => {
   const [ip, setIp] = useState('');
   const [puerto, setPuerto] = useState('');
-  const [imagen, setImagen] = useState(null);
-  const [respuesta, setRespuesta] = useState(null);
+  const [texto, setTexto] = useState('');
+  const [respuesta, setRespuesta] = useState<string | null>(null);
+  const [score, setScore] = useState<number | null>(null);
 
-  // Función para solicitar permisos en Android
-  const requestPermissions = async () => {
-    if (Platform.OS === 'android') {
-      try {
-        const cameraPermission = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.CAMERA,
-          {
-            title: 'Permiso para usar la cámara',
-            message: 'La aplicación necesita acceso a la cámara para tomar fotos.',
-            buttonNeutral: 'Pregúntame después',
-            buttonNegative: 'Cancelar',
-            buttonPositive: 'Aceptar',
-          },
-        );
-
-        const storagePermission = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-          {
-            title: 'Permiso para usar el almacenamiento',
-            message: 'La aplicación necesita acceso al almacenamiento para guardar las fotos.',
-            buttonNeutral: 'Pregúntame después',
-            buttonNegative: 'Cancelar',
-            buttonPositive: 'Aceptar',
-          },
-        );
-
-        if (cameraPermission === PermissionsAndroid.RESULTS.GRANTED && storagePermission === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('Permisos concedidos');
-        } else {
-          console.log('Permisos denegados');
-        }
-      } catch (err) {
-        console.warn(err);
-      }
-    }
-  };
-
-  // Función para pedir permisos en iOS (si es necesario)
-  const checkPermissionsForiOS = async () => {
-    if (Platform.OS === 'ios') {
-      const result = await launchCamera({ mediaType: 'photo' });
-      if (result.errorCode) {
-        Alert.alert('Error', 'No se pudieron obtener permisos para la cámara.');
-      }
-    }
-  };
-
-  // Llamar las funciones de permisos al inicio
   useEffect(() => {
-    requestPermissions();
-    checkPermissionsForiOS();
-    Tts.setDefaultLanguage('es-ES'); 
-    Tts.setDefaultRate(0.5); 
+    Tts.setDefaultLanguage('es-ES');
+    Tts.setDefaultRate(0.5);
   }, []);
 
-  const tomarFoto = async () => {
-    const options = {
-      mediaType: 'photo',
-      cameraType: 'back',
-      quality: 0.5,
-    };
-
-    launchCamera(options, (response) => {
-      if (response.didCancel) {
-        console.log('Usuario canceló la cámara');
-      } else if (response.errorCode) {
-        console.log('Error en la cámara: ', response.errorMessage);
-      } else {
-        const { uri } = response.assets[0];  // Usamos `assets[0]` ya que launchCamera retorna una matriz
-        setImagen(uri);
-      }
-    });
-  };
-
-  const enviarImagen = async () => {
+  const enviarTexto = async () => {
     if (!ip || !puerto) {
       Alert.alert('Error', 'Por favor ingresa la IP y el puerto del servidor.');
       return;
     }
 
-    if (!imagen) {
-      Alert.alert('Error', 'Por favor toma una foto antes de enviarla.');
+    if (!texto) {
+      Alert.alert('Error', 'Por favor ingresa un texto antes de enviarlo.');
       return;
     }
 
-    const formData = new FormData();
-    formData.append('file', {
-      uri: imagen,
-      type: 'image/jpeg',
-      name: 'foto.jpg',
-    });
-
     try {
-      const response = await axios.post(`http://${ip}:${puerto}/predict/`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      setRespuesta(response.data.predictions);
-      // Convertir la respuesta a voz
-      speakResponse(response.data.predictions);
-    } catch (error) {
-      Alert.alert('Error', 'No se pudo enviar la imagen: ' + error.message);
-    }
-  };
+      const response = await axios.post(`http://${ip}:${puerto}/predict/`, { text: texto });
 
-  // Función para convertir la respuesta a voz
-  const speakResponse = (predictions) => {
-    if (predictions && predictions.length > 0) {
-      const speechText = predictions.map(item => {
-        return `La imagen se clasifica como ${item.class_name} con una probabilidad de ${(item.probability * 100).toFixed(2)}%.`;
-      }).join(' '); // Unir todas las predicciones en un solo texto
-      Tts.speak(speechText); // Convertir el texto a voz
+      const sentimiento = response.data.sentimiento ?? 'Desconocido';
+      const scoreRespuesta = response.data.score ?? null;
+
+      setRespuesta(sentimiento);
+      setScore(scoreRespuesta);
+
+      Tts.speak(`El sentimiento detectado es ${sentimiento} con una puntuación de ${scoreRespuesta?.toFixed(2) ?? 'no disponible'}`);
+    } catch (error: unknown) {
+      Alert.alert('Error', 'No se pudo enviar el texto o recibir respuesta.');
     }
   };
 
   return (
-    
-
     <View style={styles.container}>
-
-      
       <View style={styles.header}>
         <Image source={require('./assets/logo.png')} style={styles.logo} />
-        <Text style={styles.title}>Reconocimiento de Imagenes</Text>
+        <Text style={styles.title}>Reconocimiento de Sentimientos</Text>
       </View>
 
       <TextInput
@@ -628,28 +481,35 @@ const App = () => {
         placeholder="IP del servidor"
         value={ip}
         onChangeText={setIp}
-        placeholderTextColor="white"
+        placeholderTextColor="#ccc"
       />
       <TextInput
         style={styles.input}
         placeholder="Puerto del servidor"
         value={puerto}
         onChangeText={setPuerto}
-        placeholderTextColor="white"
+        placeholderTextColor="#ccc"
       />
-      <Button title="Tomar Foto" onPress={tomarFoto} />
-      <Button title="Clasificar Imagen" onPress={enviarImagen} />
+      <TextInput
+        style={styles.textarea}
+        placeholder="Escribe un texto para clasificar el sentimiento"
+        value={texto}
+        onChangeText={setTexto}
+        placeholderTextColor="#ccc"
+        multiline
+        numberOfLines={4}
+      />
+
+      <TouchableOpacity style={styles.button} onPress={enviarTexto}>
+        <Text style={styles.buttonText}>Clasificar Texto</Text>
+      </TouchableOpacity>
 
       {respuesta && (
-        <ScrollView style={styles.responseContainer}>
-          <Text style={styles.responseTitle}>La imagen se puede clasificar en:</Text>
-          {respuesta.map((item, index) => (
-            <View key={index} style={styles.tableRow}>
-              <Text style={styles.tableCell}>Class Name: {item.class_name}</Text>
-              <Text style={styles.tableCell}>Probability: {(item.probability * 100).toFixed(2)}%</Text>
-            </View>
-          ))}
-        </ScrollView>
+        <View style={styles.resultadoContainer}>
+          <Text style={styles.resultadoTitulo}>Resultado:</Text>
+          <Text style={styles.resultado}>Sentimiento: {respuesta}</Text>
+          {score !== null && <Text style={styles.resultado}>Puntuación: {score.toFixed(2)}</Text>}
+        </View>
       )}
     </View>
   );
@@ -660,14 +520,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#000', // Fondo negro
   },
   logo: {
     width: 50,
     height: 50,
     marginRight: 1,
-    marginBottom:20,
-    
+    marginBottom: 20,
   },
   header: {
     flexDirection: 'row',
@@ -679,52 +538,101 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlign: 'center',
     marginBottom: 20,
-    color: 'black',
-    flexWrap: 'wrap',  
-    lineHeight: 30,    
-    width: '80%',      
+    color: '#fff', // Blanco
+    flexWrap: 'wrap',
+    lineHeight: 30,
+    width: '80%',
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: '#555',
     borderWidth: 1,
     marginBottom: 15,
     paddingLeft: 10,
-    backgroundColor: 'black',
-    color: 'white',
+    backgroundColor: '#333', // Gris oscuro
+    color: '#fff',
+    borderRadius: 6,
   },
-  responseContainer: {
-    marginTop: 20,
+  textarea: {
+    height: 100,
+    borderColor: '#555',
+    borderWidth: 1,
+    marginBottom: 15,
+    paddingLeft: 10,
     paddingTop: 10,
-    borderTopWidth: 1,
-    borderTopColor: '#ddd',
+    backgroundColor: '#333',
+    color: '#fff',
+    textAlignVertical: 'top',
+    borderRadius: 6,
   },
-  responseTitle: {
-    fontSize: 18,
+  button: {
+    backgroundColor: '#f57c00', // Naranja
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 6,
+    alignItems: 'center',
     marginBottom: 10,
-    fontWeight: 'bold',
   },
-  tableRow: {
-    marginBottom: 10,
-  },
-  tableCell: {
+  buttonText: {
+    color: '#fff',
     fontSize: 16,
-    color: 'black',
+  },
+  resultadoContainer: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#2e2e2e',
+    borderRadius: 10,
+  },
+  resultadoTitulo: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  resultado: {
+    color: 'white',
+    fontSize: 16,
   },
 });
 
 export default App;
 
 ```
-## Paso 6: Permisos en AndroidManifest.xml
+## Paso 6: El AndroidManifest.xml
 Asegúrate de que los permisos para la cámara estén configurados en tu archivo AndroidManifest.xml: en C:\Users\USUARIO\imagenes\android\app\src\main\AndroidManifest.xml
 
 ```xml
 
-<uses-permission android:name="android.permission.CAMERA" />
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
+
+    <application
+      android:name=".MainApplication"
+      android:label="@string/app_name"
+      android:icon="@mipmap/ic_launcher"
+      android:roundIcon="@mipmap/ic_launcher_round"
+      android:allowBackup="false"
+      android:theme="@style/AppTheme"
+      android:supportsRtl="true">
+      <activity
+        android:name=".MainActivity"
+        android:label="@string/app_name"
+        android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
+        android:launchMode="singleTask"
+        android:windowSoftInputMode="adjustResize"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+      </activity>
+    </application>
+</manifest>
 
 
 ```
@@ -743,8 +651,6 @@ adb devices
 
 listar los emuladores
 emulator -list-avds
-
-
 
 cd android
 gradlew clean
